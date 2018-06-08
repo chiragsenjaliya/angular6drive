@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { first } from "rxjs/operators";
 import { AlertService } from "../../shared/services/alert.service";
-import { LoadingBarService } from "@ngx-loading-bar/core";
 import { ValidationService } from "../../shared/services/validation.service";
 import { AuthenticationService} from "../auth.service";
 
@@ -22,7 +21,6 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    public loader: LoadingBarService,
     public ValidationService: ValidationService,
     public AuthenticationService: AuthenticationService,
     public router: Router

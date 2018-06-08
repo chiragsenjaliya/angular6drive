@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AlertService } from "../../shared/services/alert.service";
-import { LoadingBarService } from "@ngx-loading-bar/core";
 import { first } from "rxjs/operators";
 import { ValidationService } from "../../shared/services/validation.service";
 import { AuthenticationService } from "../auth.service";
@@ -22,7 +21,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    public loader: LoadingBarService,
     public ValidationService: ValidationService,
     public authenticationService: AuthenticationService,
     public router: Router

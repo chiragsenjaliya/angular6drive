@@ -19,10 +19,9 @@
                         </mat-error>
                     </mat-form-field>
                     
-                    <button [disabled]="!loginForm.valid " *ngIf="!loading" mat-raised-button color="primary">Login</button>
+                    <button [disabled]="loading"   mat-raised-button color="primary">Login</button>
                     
-                    <button [disabled]="loading" [routerLink]="['/register']" mat-button >Go To Register</button>
-                    <mat-progress-bar *ngIf="loading" color="accent" mode="determinate" [value]="loader.progress$|async"></mat-progress-bar>
+                    <button  [routerLink]="['/register']" mat-button >Go To Register</button>                    
 
                 </form>
 

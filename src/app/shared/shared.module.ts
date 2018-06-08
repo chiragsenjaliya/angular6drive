@@ -6,13 +6,12 @@ import { MaterialModule } from './material.module';
 import { ErrorInterceptor } from "./interceptors/error.interceptor";
 import { AlertComponent } from './element/alert/alert.component';
 import { AlertService } from "./services/alert.service";
-import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
-import { LoadingBarHttpModule } from '@ngx-loading-bar/http';
-import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { ValidationService } from "./services/validation.service";
 import { ControlMessages } from "./element/control-message/control-message.component";
 import { TokenStorage } from "./services/token-storage.service";
+import { RouterModule } from "@angular/router";
+import { NgProgressModule } from "@ngx-progressbar/core";
+import { NgProgressRouterModule } from "@ngx-progressbar/router";
 
 @NgModule({
   imports: [
@@ -21,10 +20,9 @@ import { TokenStorage } from "./services/token-storage.service";
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
-    LoadingBarHttpModule,
-    LoadingBarRouterModule,
-    LoadingBarHttpClientModule,
-    LoadingBarModule.forRoot()
+    RouterModule,
+    NgProgressModule.forRoot(),
+    NgProgressRouterModule
   ],
   declarations: [AlertComponent, ControlMessages],
   exports: [
@@ -34,11 +32,10 @@ import { TokenStorage } from "./services/token-storage.service";
     HttpClientModule,
     MaterialModule,
     AlertComponent,
-    LoadingBarHttpModule,
-    LoadingBarRouterModule,
-    LoadingBarHttpClientModule,
-    LoadingBarModule,
-    ControlMessages
+    ControlMessages,
+    RouterModule,
+    NgProgressModule,
+    NgProgressRouterModule
   ],
   providers: [
     AlertService,
