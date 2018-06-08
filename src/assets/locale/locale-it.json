@@ -1,0 +1,25 @@
+{
+  "App": {
+    "Title": "Drive file angolare",
+    "Subtitle": "Il mondo è piccolo",
+    "Auth": "Autenticazione",   
+    "Login":"Login",
+    "Register":"Register",
+    "Validation": "Convalida",
+    "Source code": "Codice sorgente"
+  },
+  "Validation": {
+    "Numbers": "Numeri",
+    "Number is invalid": "Il numero non è valido. Il formato richiesto è: {{ format }}",
+    "Min value error": "Il valore minimo è: {{ minValue }}",
+    "Max value error": "Il valore massimo è: {{ maxValue }}",
+    "Number is required": "Il numero è richiesto",
+    "Number value": "Valore del numero: {{ parsedValue }}",
+    "Submit": "Invia",
+    "Dates": "Date",
+    "Choose a date": "Scegli una data",
+    "Date is invalid": "La data non è valida",
+    "Date is required": "La data è richiesta",
+    "Date value": "Data: {{ parsedDate }}"
+  }
+}

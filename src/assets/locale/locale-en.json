@@ -1,0 +1,24 @@
+{
+  "App": {
+    "Title": "Angular File Drive",
+    "Subtitle": "It's a small world",
+    "Login": "Login",
+    "Register": "Register",
+    "Auth" : "Authentication",    
+    "Validation": "Validation"    
+  },
+  "Validation": {
+    "Numbers": "Numbers",
+    "Number is invalid": "Number is invalid. Required format: {{ format }}",
+    "Min value error": "Minimum value: {{ minValue }}",
+    "Max value error": "Maximum value: {{ maxValue }}",
+    "Number is required": "Number is required",
+    "Number value": "Number value: {{ parsedValue }}",
+    "Submit": "Submit",
+    "Dates": "Dates",
+    "Choose a date": "Choose a date",
+    "Date is invalid": "Date is invalid",
+    "Date is required": "Date is required",
+    "Date value": "Date: {{ parsedDate }}"
+  }
+}

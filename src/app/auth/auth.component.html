@@ -1,0 +1,47 @@
+<mat-sidenav-container class="app-root" #root="dir" [dir]="dir" fullscreen>
+
+  <!-- <mat-sidenav #start mode="over">
+    <mat-nav-list>
+      <a *ngFor="let navItem of navItems" mat-list-item routerLinkActive="active-link" (click)="start.close()" [routerLink]="[navItem.route]"
+        l10nTranslate>
+        {{ navItem.name }}
+      </a>
+    </mat-nav-list>
+  </mat-sidenav> -->
+
+  <div>
+    <mat-toolbar color="primary" class="mat-elevation-z6">
+      <mat-toolbar-row>
+        <!-- <button mat-icon-button (click)="start.open()">
+          <mat-icon>menu</mat-icon>
+        </button> -->
+        <div class="app-toolbar">
+          <h1 l10nTranslate>App.Title</h1>
+
+          <span class="fill-remaining-space"></span>
+          <div class="menu-section">
+            <button mat-icon-button [matMenuTriggerFor]="countryMenu" aria-label="Open x-positioned menu">
+              <mat-icon>translate</mat-icon>
+            </button>
+
+            <mat-menu xPosition="before" #countryMenu="matMenu" class="before">
+              <a *ngFor="let item of countryMenuItems" (click)="selectLocale(item.language, item.country, item.currency, item.numberingSystem); root.dir = getLanguageDirection(item.language)"
+                mat-menu-item>
+                {{ item.text }}
+                <mat-icon *ngIf="currentCountry == item.country && currentNumberingSystem == item.numberingSystem">done</mat-icon>
+              </a>
+            </mat-menu>
+          </div>          
+        </div>
+      </mat-toolbar-row>
+      <!-- <mat-toolbar-row class="app-toolbar-row">
+        <span l10nTranslate>App.Subtitle</span>
+      </mat-toolbar-row> -->
+    </mat-toolbar>
+
+    <div class="app-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</mat-sidenav-container>

@@ -1,0 +1,33 @@
+.login-card-container {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+
+	mat-card {
+		margin: 8px;
+		width: 50%;
+
+		.login-form{
+
+			form{
+				
+
+				mat-form-field{
+					display: flex;
+					flex-direction: column;
+					padding :10px 0 10px 0;
+				}
+
+				button {
+				  	display: inline-flex;
+				  	margin: 10px 5px 10px 0;
+				}
+
+			}
+
+		}
+		
+	}
+
+}
