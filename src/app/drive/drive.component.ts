@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Direction } from "@angular/cdk/bidi";
 import { Subscription } from "rxjs";
@@ -10,7 +10,9 @@ import { LocaleService, TranslationService } from "angular-l10n";
   templateUrl: "./drive.component.html",
   styleUrls: ["./drive.component.scss"]
 })
-export class DriveComponent implements OnInit {
+export class DriveComponent implements AfterViewInit {
+  innerHeight: any;
+  innerWidth: any;
   countryMenuItems: any[] = [
     {
       text: "EN",
@@ -45,14 +47,17 @@ export class DriveComponent implements OnInit {
     public translation: TranslationService,
     public title: Title,
     public AuthenticationService: AuthenticationService
-  ) {}
+  ) {
+    this.innerHeight = window.screen.height;
+    this.innerWidth = window.screen.width;
+  }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     // When the language changes, refreshes the document title with the new translation.
     this.subscription = this.translation.translationChanged().subscribe(() => {
       this.title.setTitle(this.translation.translate("App.Title"));
     });
-   
+
     // Initializes direction.
     this.dir = this.getLanguageDirection();
   }

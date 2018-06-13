@@ -8,6 +8,14 @@
     "Validation": "Convalida",
     "Source code": "Codice sorgente"
   },
+  "Button": {
+    "Login": "Login",
+    "Register": "Register",
+    "Cancel": "Cancel",
+    "Go To Login": "Go To Login",
+    "Go To Register": "Go To Register"
+  },
+
   "Validation": {
     "Numbers": "Numeri",
     "Number is invalid": "Il numero non è valido. Il formato richiesto è: {{ format }}",

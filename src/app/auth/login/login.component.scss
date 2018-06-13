@@ -8,6 +8,13 @@
 		margin: 8px;
 		width: 50%;
 
+		mat-progress-bar{
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		}
+
 		.login-form{
 
 			form{

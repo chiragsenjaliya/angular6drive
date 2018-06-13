@@ -10,10 +10,14 @@ import {
 import { Subject, Observable, throwError } from "rxjs";
 import { map, first, switchMap, catchError } from "rxjs/operators";
 import { AuthenticationService } from "../../auth/auth.service";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar, MatSnackBarConfig } from "@angular/material";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
+
+  static snackBarConfig: MatSnackBarConfig = <MatSnackBarConfig>{
+    duration: 5000
+  };
   /**
    * Is refresh token is being executed
    */
@@ -49,7 +53,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     delegate: HttpHandler
   ): Observable<HttpEvent<any>> {
     const clone: HttpRequest<any> = original.clone();
-
     return this.request(clone).pipe(
       switchMap((req: HttpRequest<any>) => delegate.handle(req)),
       catchError((res: HttpErrorResponse) => this.responseError(clone, res))
@@ -76,11 +79,10 @@ export class ErrorInterceptor implements HttpInterceptor {
     res: HttpErrorResponse
   ): Observable<HttpEvent<any>> {    
     const refreshShouldHappen: boolean = this.AuthenticationService.refreshShouldHappen(res);
-    console.log(res);
     if (refreshShouldHappen && !this.refreshInProgress) {
      
       if (res.error.error = 'invalid_credentials') {
-        this.snackbar.open(res.error.message, "close");
+        this.snackbar.open(res.error.message, "close",ErrorInterceptor.snackBarConfig);
       }else{
 
         this.refreshInProgress = true;
@@ -102,18 +104,20 @@ export class ErrorInterceptor implements HttpInterceptor {
       return this.retryRequest(req, res);
     }
 
-    if (res.status == 404) {
-      this.snackbar.open("No resource found please try again later!", "close");
+    if (res.status == 403) {
+      this.snackbar.open(res.error.message, "close",ErrorInterceptor.snackBarConfig);
     }    
 
-    
+    if (res.status == 404) {
+      this.snackbar.open("No resource found please try again later!", "close",ErrorInterceptor.snackBarConfig);
+    } 
 
     if (res.status == 500 || res.status == 405) {
-      this.snackbar.open("Bad Request try again later!", "close");
+      this.snackbar.open("Bad Request try again later!", "close",ErrorInterceptor.snackBarConfig);
     }    
 
     if (res.status == 0) {
-      this.snackbar.open("Unknown error try again later!!", "close");
+      this.snackbar.open("Unknown error try again later!!", "close",ErrorInterceptor.snackBarConfig);
     }
 
 
@@ -132,7 +136,6 @@ export class ErrorInterceptor implements HttpInterceptor {
           setHeaders = {           
             Authorization: `Bearer ${token}`
           }; 
-          console.log(setHeaders);
           return req.clone({ setHeaders });
         }
         return req;

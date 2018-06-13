@@ -7,6 +7,13 @@
     "Auth" : "Authentication",    
     "Validation": "Validation"    
   },
+  "Button":{
+    "Login":"Login",
+    "Register":"Register",
+    "Cancel" : "Cancel",
+    "Go To Login": "Go To Login",
+    "Go To Register": "Go To Register"
+  },
   "Validation": {
     "Numbers": "Numbers",
     "Number is invalid": "Number is invalid. Required format: {{ format }}",

@@ -1,6 +1,6 @@
 <ng-container *ngIf="progressRef.state$ | async; let state">
 
-<mat-progress-bar [@fadeInOut] *ngIf="state.active" [value]="state.value"></mat-progress-bar>
+<mat-progress-bar [@fadeInOut] *ngIf="state.active" [value]="state.value" color="accent"></mat-progress-bar>
 
 <app-alert></app-alert>
 <router-outlet></router-outlet>

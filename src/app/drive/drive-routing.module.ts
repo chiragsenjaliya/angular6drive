@@ -7,9 +7,7 @@ const routes: Routes = [
   {
     path: "",
     component: DriveComponent,
-    children: [
-      { path: "", component: DrivespaceComponent },      
-    ]
+    children: [{ path: ":id", component: DrivespaceComponent }]
   }
 ];
 

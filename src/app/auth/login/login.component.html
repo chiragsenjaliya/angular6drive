@@ -1,31 +1,34 @@
 <div class="login-card-container">
     <mat-card>
-      <mat-card-title>{{ 'App.Login' | translate:lang }}</mat-card-title>
-        <mat-card-content>
-            <div class="login-form">
-                <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-                    <mat-form-field>
-                        <input matInput placeholder="Email" formControlName="email">                        
-                        <mat-error align="start"  > 
-                            <control-messages [control]="loginForm.controls.email" ></control-messages>
-                        </mat-error>
-                    </mat-form-field>
+        <ng-container *ngIf="progressRef.state$ | async; let state">
+            <mat-progress-bar [@fadeInOut] *ngIf="state.active" [value]="state.value" ></mat-progress-bar>
+            <mat-card-title>{{ 'App.Login' | translate:lang }}</mat-card-title>
+            <mat-card-content>
+                <div class="login-form">
+                    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+                        <mat-form-field>
+                            <input matInput placeholder="Email" formControlName="email">                        
+                            <mat-error align="start"  > 
+                                <control-messages [control]="loginForm.controls.email" ></control-messages>
+                            </mat-error>
+                        </mat-form-field>
 
-                    <mat-form-field>
-                        <input matInput placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'">
-                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                        <mat-error align="start">
-                            <control-messages [control]="loginForm.controls.password"></control-messages>
-                        </mat-error>
-                    </mat-form-field>
-                    
-                    <button [disabled]="loading"   mat-raised-button color="primary">Login</button>
-                    
-                    <button  [routerLink]="['/register']" mat-button >Go To Register</button>                    
+                        <mat-form-field>
+                            <input matInput placeholder="Password" formControlName="password" [type]="hide ? 'password' : 'text'">
+                            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                            <mat-error align="start">
+                                <control-messages [control]="loginForm.controls.password"></control-messages>
+                            </mat-error>
+                        </mat-form-field>
+                        
+                        <button [disabled]="loading"   mat-raised-button color="primary">{{ 'Button.Login' | translate:lang }}</button>
+                        
+                        <button  [routerLink]="['/register']" mat-button >{{ 'Button.Go To Register' | translate:lang }}</button>                    
 
-                </form>
+                    </form>
 
-            </div>
-        </mat-card-content>
+                </div>
+            </mat-card-content>
+        </ng-container>
     </mat-card>
 </div>

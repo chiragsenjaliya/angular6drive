@@ -3,3 +3,170 @@
 @import './assets/styles/variables.scss';
 @import './assets/styles/app-theme.scss';
 @import './assets/styles/app.scss';
+@import '~angular-tree-component/dist/angular-tree-component.css';
+.node-wrapper {
+  margin-left: 5px;
+  padding: 10px;
+}
+
+.node-content-wrapper,
+.tree-children {
+  position: relative;
+}
+
+.node-content-wrapper::before,
+.tree-children::after {
+  content: "";
+  position: absolute;
+}
+
+.node-content-wrapper::before {
+  border-bottom: 1px solid lightgrey;
+  border-left: 1px solid lightgrey;
+  height: 28px;
+  top: -17px;
+  width: 20px;
+  left: -28px;
+}
+
+.tree-node-level-1>tree-node-wrapper>.node-wrapper>.node-content-wrapper::before {
+  display: none;
+}
+
+.tree-node-leaf>.node-wrapper>.node-content-wrapper::before {
+  width: 25px;
+}
+
+.tree-children::after {
+  border-left: 1px solid lightgrey;
+  height: 100%;
+  top: -15px;
+  left: -15px;
+}
+
+tree-node:last-child>.tree-node>.tree-children::after {
+  border-left: none;
+}
+
+.toggle-children {
+  z-index: 1;
+}
+
+.mat-menu-content {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+// .context-menu-trigger {
+//   position: absolute;
+// }
+.foldertree-folder-icon {
+  font-size: 13px;
+  margin: 0;
+  height: auto;
+  width: 20px;
+}
+
+.tree .tree-children::before,
+.tree::before {
+  content: "";
+  position: absolute;
+  border-left: 1px dotted #23527c;
+  height: 100%;
+  top: -14px;
+  left: 12px
+}
+
+.tree {
+  padding-left: 0;
+  margin-left: -5px
+}
+
+.tree .tree-children {
+  position: relative;
+  padding-left: 0;
+  margin-left: 16px
+}
+
+.tree .tree-children::before {
+  left: 5px
+}
+
+.tree tree-node>div>.node-wrapper {
+  margin-left: 24px;
+}
+
+.tree tree-node>div>.node-wrapper>.node-content-wrapper {
+  margin-left: 4px
+}
+
+.tree tree-node>div.tree-node-leaf>.node-wrapper {
+  margin-left: 0
+}
+
+.tree tree-node>div::before {
+  content: "";
+  position: absolute;
+  border-bottom: 1px dotted #23527c;
+  width: 7px;
+  margin-top: 12px;
+  left: 7px
+}
+
+.tree tree-node>div .toggle-children-wrapper {
+  width: 13px;
+  height: 13px;
+  border: 1px solid #23527c;
+  position: absolute;
+  left: 15px;
+  margin-top: 5px;
+  margin-left: 0;
+  display: inline-block;
+  background-color: #fff;
+  z-index: 1
+}
+
+.tree tree-node>div .toggle-children-wrapper::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  border-top: 1px solid #23527c;
+  position: absolute;
+  top: 5px;
+  left: 2px
+}
+
+.tree tree-node>div .toggle-children-wrapper.toggle-children-wrapper-collapsed::after {
+  content: "";
+  display: inline-block;
+  height: 7px;
+  border-left: 1px solid #23527c;
+  position: absolute;
+  top: 2px;
+  left: 5px
+}
+
+.tree tree-node>div .toggle-children-wrapper .toggle-children {
+  display: none
+}
+
+.tree tree-node>div .node-content-wrapper {
+  margin-left: 4px
+}
+
+.tree>tree-node>div::before {
+  left: 14px
+}
+
+.tree>tree-node>div>.node-wrapper>tree-node-expander>.toggle-children-wrapper {
+  left: 22px
+}
+
+.node-content-wrapper-focused {
+  color: #23527c;
+}
+
+.mat-menu-item {
+  font-size: 12px
+}
+

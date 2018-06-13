@@ -50,8 +50,17 @@
       </mat-toolbar-row> -->
     </mat-toolbar>
 
-    <div class="app-content">
-      <router-outlet></router-outlet>
+    <div class="drive-content">      
+      <div class="drive-split" >
+        <split direction="horizontal" [width]="innerWidth">
+          <split-area  [size]="15">
+            <app-drivetree ></app-drivetree>
+          </split-area>
+          <split-area [size]="85">
+            <router-outlet></router-outlet>
+          </split-area>
+        </split>
+      </div>      
     </div>
   </div>
 
