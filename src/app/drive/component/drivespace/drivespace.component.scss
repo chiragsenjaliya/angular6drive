@@ -2,6 +2,9 @@
   padding: 8px;
   overflow: hidden;
 }
+.main-container{
+  height:100%;
+}
 
 .file-or-folder-icon {
   width: 50px;
@@ -15,4 +18,21 @@
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.toolbar-icon {
+  padding: 0 14px;
+}
+
+.foldercrumbs-item {
+  padding:5px;
+  font-size:15px;
+  span{
+    padding:5px;
+  }
+  a{
+    text-decoration: none;
+    color:#fff;
+    padding:5px;
+  }
 }

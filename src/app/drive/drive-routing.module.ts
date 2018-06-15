@@ -5,10 +5,14 @@ import { DriveComponent } from "./drive.component";
 
 const routes: Routes = [
   {
-    path: "",
+    path: "folder",
     component: DriveComponent,
-    children: [{ path: ":id", component: DrivespaceComponent }]
-  }
+    children: [
+      { path: ":id", component: DrivespaceComponent },
+      { path: "", component: DrivespaceComponent }
+    ]
+  },
+  { path: "", redirectTo: "/drive/folder" },
 ];
 
 @NgModule({

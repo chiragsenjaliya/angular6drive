@@ -12,9 +12,9 @@ import { TokenStorage } from "./services/token-storage.service";
 import { RouterModule } from "@angular/router";
 import { NgProgressModule } from "@ngx-progressbar/core";
 import { NgProgressRouterModule } from "@ngx-progressbar/router";
-import { CreateFolderDialogComponent } from './element/create-folder-dialog/create-folder-dialog.component';
-import { ProcessLoaderDialogComponent } from "./element/process-loader-dialog/process-loader-dialog.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { ScrollbarModule } from "ngx-scrollbar";
+
 @NgModule({
   imports: [
     CommonModule,
@@ -25,15 +25,10 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     RouterModule,
     NgProgressModule.forRoot(),
     NgProgressRouterModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    ScrollbarModule
   ],
-  declarations: [
-    AlertComponent,
-    ControlMessages,
-    CreateFolderDialogComponent,
-    ProcessLoaderDialogComponent
-  ],
-  entryComponents: [CreateFolderDialogComponent, ProcessLoaderDialogComponent],
+  declarations: [AlertComponent, ControlMessages],
   exports: [
     CommonModule,
     FormsModule,
@@ -45,7 +40,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     RouterModule,
     NgProgressModule,
     NgProgressRouterModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    ScrollbarModule
   ],
   providers: [
     AlertService,

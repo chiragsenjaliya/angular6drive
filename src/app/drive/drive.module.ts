@@ -9,7 +9,9 @@ import { DrivespaceComponent } from './component/drivespace/drivespace.component
 import { DrivetreeComponent} from './component/drivetree/drivetree.component';
 import { AngularSplitModule } from "angular-split-ng6";
 import { TreeModule } from "angular-tree-component";
-
+import { CreateFolderDialogComponent } from "./dialog/create-folder-dialog/create-folder-dialog.component";
+import { ProcessLoaderDialogComponent } from "./dialog/process-loader-dialog/process-loader-dialog.component";
+import { UploaddialogComponent } from "./dialog/uploaddialog/uploaddialog.component";
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +24,15 @@ import { TreeModule } from "angular-tree-component";
   declarations: [
     DriveComponent,
     DrivespaceComponent,
-    DrivetreeComponent
+    DrivetreeComponent,
+    CreateFolderDialogComponent,
+    ProcessLoaderDialogComponent,
+    UploaddialogComponent
+  ],
+  entryComponents: [
+    CreateFolderDialogComponent,
+    ProcessLoaderDialogComponent,
+    UploaddialogComponent
   ]
 })
 export class DriveModule {}

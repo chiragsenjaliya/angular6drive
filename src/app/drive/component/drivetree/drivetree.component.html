@@ -1,27 +1,29 @@
-<tree-root #foldertree [nodes]="nodes" [options]="options">
-  <ng-template #treeNodeWrapperTemplate let-node let-index="index">
-    <div class="node-wrapper" [style.padding-left]="node.getNodePadding()">
-      <tree-node-expander [node]="node">
-      </tree-node-expander>
-      <div class="node-content-wrapper" [class.node-content-wrapper-active]="node.isActive" [class.node-content-wrapper-focused]="node.isFocused"
-        (click)="navigate($event,node)" (contextmenu)="contextMenuOpen($event,menuTrigger)" (treeDrop)="node.onDrop($event)"
-        [treeAllowDrop]="node.allowDrop" [treeDrag]="node" [treeDragEnabled]="node.allowDrag()">
-        <i class="foldertree-folder-icon fas" [class.fa-folder-open]="node.isExpanded" [class.fa-folder]="!node.isExpanded"></i>
-        <span class="foldertree-folder"> {{ node.data.name }}</span>
-        <span mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="appMenu" xPosition="after"></span>
-      </div>
-    </div>
 
-    <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
-      <ng-template matMenuContent>
-        <button mat-menu-item (click)="createFolder(node,foldertree)">
-          <mat-icon>create_new_folder</mat-icon> Create Folder</button>
-        <button mat-menu-item>
-          <mat-icon>cloud_upload</mat-icon> Upload File</button>
-      </ng-template>
-    </mat-menu>
-  </ng-template>
-  <ng-template #loadingTemplate>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </ng-template>
-</tree-root>
+  <tree-root #foldertree [nodes]="nodes" >
+    <ng-scrollbar>
+      <ng-template #treeNodeWrapperTemplate let-node let-index="index">
+        <div class="node-wrapper" [style.padding-left]="node.getNodePadding()">
+          <tree-node-expander [node]="node">
+          </tree-node-expander>
+          <div class="node-content-wrapper" [class.node-content-wrapper-active]="node.isActive" [class.node-content-wrapper-focused]="node.isFocused"
+            (click)="node.mouseAction('click', $event)" (dblclick)="navigate($event,node)" (contextmenu)="contextMenuOpen($event,menuTrigger)"
+            (treeDrop)="node.onDrop($event)"
+            [treeAllowDrop]="node.allowDrop" [treeDrag]="node" [treeDragEnabled]="node.allowDrag()">
+            <i class="foldertree-folder-icon fas" [class.fa-folder-open]="node.isExpanded" [class.fa-folder]="!node.isExpanded"></i>
+    <span class="foldertree-folder"> {{ node.data.name }} </span>
+            <span mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="appMenu" xPosition="after"></span>
+          </div>
+        </div>
+
+        <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+          <ng-template matMenuContent>
+            <button mat-menu-item (click)="createFolder(node,foldertree)">
+              <mat-icon>create_new_folder</mat-icon> Create Folder</button>
+            <button mat-menu-item>
+              <mat-icon>cloud_upload</mat-icon> Upload File</button>
+          </ng-template>
+        </mat-menu>
+      </ng-template> 
+    </ng-scrollbar> 
+  </tree-root>
+

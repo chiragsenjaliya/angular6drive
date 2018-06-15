@@ -1,0 +1,15 @@
+<mat-toolbar mat-dialog-title color="primary">
+  <mat-toolbar-row>
+    <span>Create Folder</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+  <p>Folder Name</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.name">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+  <button [disabled]="!data.name" mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Ok</button>
+</div>

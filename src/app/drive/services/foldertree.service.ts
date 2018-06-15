@@ -1,26 +1,38 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { of, Observable} from "rxjs";
-import { tap, map, switchMap, catchError,  } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
+import { Subject, Observable } from "rxjs";
+import {  map, catchError,  } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root"
 })
-
 export class FoldertreeService {
   public foldrertreeUrl = environment.serverapiUrl + "folder-tree";
   public createFolderUrl = environment.serverapiUrl + "create-folder";
   public getFoldersUrl = environment.serverapiUrl + "get-folders-files";
   public nodes: any;
+  public isFolderCreated = new Subject();
+  public activeNode = new Subject();
 
   constructor(private http: HttpClient) {}
+
+  public setisFolderCreated(data: any) {
+    this.isFolderCreated.next(data);
+  }
+
+  public getisFolderCreated(): Observable<any> {
+    return this.isFolderCreated.asObservable();
+  }
 
   /**
    * Get Folder Tree Data
    */
 
   public foldrertree(nodeId): any {
+    if (nodeId==0){
+      nodeId="";
+    }
     return this.http
       .get(this.foldrertreeUrl + "/" + nodeId)
       .toPromise()
@@ -43,8 +55,11 @@ export class FoldertreeService {
    */
 
   public createFolder(nodeId, name): any {
+    if (nodeId == 0) {
+      nodeId = "";
+    }
     const folderdata = {
-      parent_id: nodeId,
+      slug: nodeId,
       name: name
     };
     return this.http
@@ -56,10 +71,12 @@ export class FoldertreeService {
    * Get Folders
    */
 
-  public getFolders(parent_id): Observable<any> {
+  public getFolders(slug): Observable<any> {
+    if (slug == 0) {
+      slug = "";
+    }
     return this.http
-      .get(this.getFoldersUrl + "/" + parent_id).pipe(
-        catchError((error: any) => Observable.throw(error))
-    );
+      .get(this.getFoldersUrl + "/" + slug)
+      .pipe(catchError((error: any) => Observable.throw(error)));
   }
 }

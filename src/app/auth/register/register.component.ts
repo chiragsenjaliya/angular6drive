@@ -89,8 +89,9 @@ export class RegisterComponent implements OnInit {
       .subscribe(
         data => {
           this.progressRef.complete();
+          this.alertService.successMessage("User Created Successfully", true);
           this.router.navigate(["/login"]);
-          this.alertService.success("User Created Successfully");
+          
         },
         error => {           
           this.progressRef.complete();
