@@ -17,7 +17,7 @@ export class DrivetreeComponent implements OnInit {
   nodes:any;
 
   options = {
-    
+    useVirtualScroll: false,
   };
   constructor(
     private foldertreeService: FoldertreeService,
@@ -30,41 +30,40 @@ export class DrivetreeComponent implements OnInit {
   ngOnInit() {
     this.foldertreeService.activeNode.subscribe(
       data => {
-        if (data != "") {
-          return this.foldertreeService
-            .foldrertree(data)
-            .then(result => {
-             if(result.data){
-               this.nodes = [
-                 {
-                   name: "/",
-                   hasChildren: true,
-                   isExpanded:true,
-                   id: "0",
-                   children: result.data
-                 }
-               ];             
-               
-             }else{
-               this.nodes = [{ name: "/", hasChildren: false, id: "0",isActive:true}];
-               
-             }
-              this.folderTree.treeModel.update();
-              this.ref.detectChanges();  
-              this.folderTree.treeModel.doForAll(treeNode => {
-                if (treeNode.data.isActive === true) {
-                  treeNode.toggleActivated();
+        return this.foldertreeService
+          .foldrertree(data)
+          .then(result => {
+            if(result.data){
+              this.nodes = [
+                {
+                  name: "/",
+                  hasChildren: true,
+                  isExpanded:true,
+                  id: "0",
+                  children: result.data
                 }
-                if (treeNode.data.isFocused === true) {
-                  this.folderTree.treeModel.setFocus(treeNode);
-                }
-              });            
-            })
-            .catch(error => {
-              console.log(error);
-              return [];
-            });
-        }
+              ];             
+              
+            }else{
+              this.nodes = [{ name: "/", hasChildren: false, id: "0",isActive:true}];
+              
+            }
+            this.folderTree.treeModel.update();
+            this.ref.detectChanges();  
+            this.folderTree.treeModel.doForAll(treeNode => {
+              if (treeNode.data.isActive === true) {
+                treeNode.toggleActivated();
+              }
+              if (treeNode.data.isFocused === true) {
+                this.folderTree.treeModel.setFocus(treeNode);
+              }
+            });            
+          })
+          .catch(error => {
+            console.log(error);
+            return [];
+          });
+        
       },
       error => console.log(error)
     );

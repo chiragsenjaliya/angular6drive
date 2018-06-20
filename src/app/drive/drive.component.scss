@@ -1,8 +1,13 @@
 .drive-split {
   height: 90vh;  
 }
+
 :host {
   display: block;
   width: 100%;  
 }
 
+.side-drive-tree {
+  overflow: auto; 
+  margin-left: 15px;
+}

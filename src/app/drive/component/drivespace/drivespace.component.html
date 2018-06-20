@@ -13,25 +13,48 @@
     <a [routerLink]="['/drive/folder', foldercrumb.id]">
       {{ foldercrumb.name }}
     </a>
-  </span>
-  <span class="spacer"></span>
-  <mat-icon mat-mini-fab  class="toolbar-icon" (click)="openUploadDialog()">cloud_upload</mat-icon>
+  </span>  
 </mat-toolbar>
 
 <div class="container" fxFlex fxLayout="row" >
-  <mat-grid-list cols="6" rowHeight="100px"  fxFlex>
-    <mat-grid-tile *ngFor="let element of folders" class=file-or-folder>
+  <div class="fileOrFolder" *ngFor="let element of folders">
+    <div *ngIf="element.is_folder">
       <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger">
       </span>
-      <div fxLayout="column" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)" fxLayoutAlign="space-between center">
-
-        <mat-icon color="primary" class="file-or-folder-icon pointer">
-          folder
-        </mat-icon>
-        <span>{{element.name}}</span>
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+      <mat-card class="drivespaceCard" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)" >  
+        <mat-card-content>
+          <mat-icon color="primary" >
+            folder
+          </mat-icon>
+        </mat-card-content>
+        <mat-card-actions>
+          <mat-divider></mat-divider>
+          <span class="actionname" [matTooltip]="element.name">{{(element.name.length>10)? (element.name | slice:0:10)+'..':(element.name)}}</span>
+        </mat-card-actions>
+      </mat-card>        
+    </div>
+    <div *ngIf="!element.is_folder">
+      <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger">
+      </span>
+      <mat-card class="drivespaceCard"  (contextmenu)="openMenu($event, menuTrigger)" >  
+        <mat-card-content>
+          <div *ngIf="element.file_type=='pdf'">
+            
+            <pdf-viewer [src]="element.url" [original-size]="false"  [show-all]="false" [render-text]="true" style="display: block;"></pdf-viewer>
+          </div>
+          <div *ngIf="element.file_type!='pdf'">
+            <mat-icon color="primary">
+              file_copy
+            </mat-icon>
+          </div>          
+        </mat-card-content>
+        <mat-card-actions>
+          <mat-divider></mat-divider>
+          <span class="actionname" [matTooltip]="element.name">{{(element.name.length>10)? (element.name | slice:0:10)+'..':(element.name)}}</span>
+        </mat-card-actions>
+      </mat-card>        
+    </div>
+  </div>
 </div>
 <mat-menu #mainMenu="matMenu" [overlapTrigger]="false">
   <ng-template matMenuContent let-element="element">    

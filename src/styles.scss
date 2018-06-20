@@ -9,6 +9,10 @@
   padding: 10px;
 }
 
+tree-viewport {
+  overflow: hidden !important;
+}
+
 .node-content-wrapper,
 .tree-children {
   position: relative;

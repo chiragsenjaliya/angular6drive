@@ -20,10 +20,26 @@
 
           <span class="fill-remaining-space"></span>
           <div class="menu-section">
+            <button mat-icon-button  [matMenuTriggerFor]="topMainMenu"  class="create-button">
+                <mat-icon>add</mat-icon>
+            </button>
+            <mat-menu  #topMainMenu="matMenu" >
+              <a  mat-menu-item>                
+                <mat-icon>create_new_folder</mat-icon>
+                <span>Create Folder</span>
+              </a>
+              <a  mat-menu-item>                
+                <mat-icon>folder</mat-icon>
+                <span>Upload Folder</span>
+              </a>
+              <a  mat-menu-item (click)="addFiles()">                
+                <mat-icon>cloud_upload</mat-icon>
+                <span>Upload File</span>
+              </a>
+            </mat-menu>
             <button mat-icon-button [matMenuTriggerFor]="countryMenu" aria-label="Open x-positioned menu">
               <mat-icon>translate</mat-icon>
-            </button>
-
+            </button>            
             <mat-menu xPosition="before" #countryMenu="matMenu" class="before">
               <a *ngFor="let item of countryMenuItems" (click)="selectLocale(item.language, item.country, item.currency, item.numberingSystem); root.dir = getLanguageDirection(item.language)"
                 mat-menu-item>
@@ -45,16 +61,18 @@
           </div>
         </div>
       </mat-toolbar-row>
-      <!-- <mat-toolbar-row class="app-toolbar-row">
-        <span l10nTranslate>App.Subtitle</span>
-      </mat-toolbar-row> -->
+      <input type="file" #file style="display: none" (change)="onFilesAdded($event.target.files)" multiple />
     </mat-toolbar>
 
     <div class="drive-content">      
       <div class="drive-split" >
         <split direction="horizontal" [width]="innerWidth">
-          <split-area  [size]="15">
-            <app-drivetree ></app-drivetree>
+          <split-area  [size]="15"> 
+            <ng-scrollbar class="lazy-scrollbar" thumbClass="custom-scrollbars-2">
+              <div class="side-drive-tree">           
+                <app-drivetree ></app-drivetree>
+              </div>
+            </ng-scrollbar>
           </split-area>
           <split-area [size]="85">
             <router-outlet></router-outlet>

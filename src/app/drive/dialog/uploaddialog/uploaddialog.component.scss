@@ -1,24 +1,26 @@
-.add-files-btn {
-  float: right;
-}
-
-:host {
-  height: 100%;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-}
-
-.actions {
-  justify-content: flex-end;
-}
-
-.container {
-  height: 100%;
-}
-
-
-
-.close-icon {
-  padding: 0 14px;
+table{
+  margin:5px;  
+  .filename{
+    font-size:14px;
+    width:40%
+  }
+  .filesize {
+    font-size: 10px;
+    width: 20%
+  }
+  .fileprogress {
+    
+    mat-progress-bar {
+      display: inline-flex;
+      width: 80%;
+      top: -8px;
+    }
+    a{
+      mat-icon{
+        font-size: 20px;
+      }      
+      cursor: pointer;
+      margin-left:5px
+    }
+  }
 }

@@ -14,6 +14,8 @@ import { NgProgressModule } from "@ngx-progressbar/core";
 import { NgProgressRouterModule } from "@ngx-progressbar/router";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { ScrollbarModule } from "ngx-scrollbar";
+import { FileSizeModule } from 'ngx-filesize';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   imports: [
@@ -26,7 +28,9 @@ import { ScrollbarModule } from "ngx-scrollbar";
     NgProgressModule.forRoot(),
     NgProgressRouterModule,
     FlexLayoutModule,
-    ScrollbarModule
+    ScrollbarModule,
+    FileSizeModule,
+    PdfViewerModule
   ],
   declarations: [AlertComponent, ControlMessages],
   exports: [
@@ -41,7 +45,9 @@ import { ScrollbarModule } from "ngx-scrollbar";
     NgProgressModule,
     NgProgressRouterModule,
     FlexLayoutModule,
-    ScrollbarModule
+    ScrollbarModule,
+    FileSizeModule,
+    PdfViewerModule
   ],
   providers: [
     AlertService,

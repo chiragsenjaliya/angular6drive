@@ -6,9 +6,19 @@
   height:100%;
 }
 
+.drivespaceCard{
+  cursor: pointer;
+  margin:15px;  
+  display: inline-block;
+  width:20%;
+  height:10%;  
+  .actionname{
+    font-size:12px;
+  }
+}
+
 .file-or-folder-icon {
   width: 50px;
-  height: 50px;
   font-size: 50px;
 }
 
@@ -24,15 +34,19 @@
   padding: 0 14px;
 }
 
-.foldercrumbs-item {
-  padding:5px;
-  font-size:15px;
-  span{
+.foldercrumbs{
+  height: 20px;
+
+  .foldercrumbs-item {
     padding:5px;
-  }
-  a{
-    text-decoration: none;
-    color:#fff;
-    padding:5px;
+    font-size:15px;
+    span{
+      padding:5px;
+    }
+    a{
+      text-decoration: none;
+      color:#fff;
+      padding:5px;
+    }
   }
 }

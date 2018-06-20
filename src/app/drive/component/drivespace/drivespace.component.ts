@@ -4,7 +4,7 @@ import { FoldertreeService } from '../../services/foldertree.service';
 import { MatMenuTrigger, MatDialog } from "@angular/material";
 import { UploadService } from "../../services/upload.service";
 import { ProcessLoaderDialogComponent } from "../../dialog/process-loader-dialog/process-loader-dialog.component";
-import { UploaddialogComponent } from "../../dialog/uploaddialog/uploaddialog.component";
+
 @Component({
   selector: "app-drivespace",
   templateUrl: "./drivespace.component.html",
@@ -43,8 +43,7 @@ export class DrivespaceComponent implements OnInit {
       this.foldertreeService.activeNode.next(this.paramval);
       this.foldertreeService.isFolderCreated.subscribe(
         data => {
-          if (data) {
-            console.log("call");
+          if (data) {           
             this.getFileFolders(this.paramval);
             this.foldertreeService.isFolderCreated.next(false);
           }
@@ -75,15 +74,10 @@ export class DrivespaceComponent implements OnInit {
       menu.style.position = "absolute";
       menu.style.left = event.pageX + 5 + "px";
       menu.style.top = event.pageY + 5 + "px";
-      console.log(menu);
     }
     viewChild.openMenu();
     event.preventDefault();
     event.stopPropagation();
-  }
-
-  public openUploadDialog() {
-    let dialogRef = this.dialog.open(UploaddialogComponent, { width: '50%',hasBackdrop:false, disableClose: true }).updatePosition({ bottom: '5px', right: '5px'});
   }
 
 }
