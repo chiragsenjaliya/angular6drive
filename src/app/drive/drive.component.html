@@ -1,86 +1,14 @@
-<mat-sidenav-container class="app-root" #root="dir" [dir]="dir" fullscreen>
-
-  <!-- <mat-sidenav #start mode="over">
-    <mat-nav-list>
-      <a *ngFor="let navItem of navItems" mat-list-item routerLinkActive="active-link" (click)="start.close()" [routerLink]="[navItem.route]"
-        l10nTranslate>
-        {{ navItem.name }}
-      </a>
-    </mat-nav-list>
-  </mat-sidenav> -->
-
-  <div>
-    <mat-toolbar color="primary" class="mat-elevation-z6">
-      <mat-toolbar-row>
-        <!-- <button mat-icon-button (click)="start.open()">
-          <mat-icon>menu</mat-icon>
-        </button> -->
-        <div class="app-toolbar">
-          <h1 l10nTranslate>App.Title</h1>
-
-          <span class="fill-remaining-space"></span>
-          <div class="menu-section">
-            <button mat-icon-button  [matMenuTriggerFor]="topMainMenu"  class="create-button">
-                <mat-icon>add</mat-icon>
-            </button>
-            <mat-menu  #topMainMenu="matMenu" >
-              <a  mat-menu-item>                
-                <mat-icon>create_new_folder</mat-icon>
-                <span>Create Folder</span>
-              </a>
-              <a  mat-menu-item>                
-                <mat-icon>folder</mat-icon>
-                <span>Upload Folder</span>
-              </a>
-              <a  mat-menu-item (click)="addFiles()">                
-                <mat-icon>cloud_upload</mat-icon>
-                <span>Upload File</span>
-              </a>
-            </mat-menu>
-            <button mat-icon-button [matMenuTriggerFor]="countryMenu" aria-label="Open x-positioned menu">
-              <mat-icon>translate</mat-icon>
-            </button>            
-            <mat-menu xPosition="before" #countryMenu="matMenu" class="before">
-              <a *ngFor="let item of countryMenuItems" (click)="selectLocale(item.language, item.country, item.currency, item.numberingSystem); root.dir = getLanguageDirection(item.language)"
-                mat-menu-item>
-                {{ item.text }}
-                <mat-icon *ngIf="currentCountry == item.country && currentNumberingSystem == item.numberingSystem">done</mat-icon>
-              </a>
-            </mat-menu>
-
-            <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="Open x-positioned menu">
-              <mat-icon>mood</mat-icon>
-            </button>
-
-            <mat-menu xPosition="before" #userMenu="matMenu" class="before">
-              <a (click)="AuthenticationService.logout()" mat-menu-item>
-                Logout
-                <mat-icon>power_settings_new</mat-icon>
-              </a>
-            </mat-menu>
-          </div>
+<div class="drive-data-container" fxFlex="100%" fxLayout="column">  
+  <split direction="horizontal"  fxFlex>
+    <split-area [size]="15">
+      <ng-scrollbar class="lazy-scrollbar" thumbClass="custom-scrollbars-2" >
+        <div class="side-drive-tree" fxFlex >
+          <app-drivetree></app-drivetree>
         </div>
-      </mat-toolbar-row>
-      <input type="file" #file style="display: none" (change)="onFilesAdded($event.target.files)" multiple />
-    </mat-toolbar>
-
-    <div class="drive-content">      
-      <div class="drive-split" >
-        <split direction="horizontal" [width]="innerWidth">
-          <split-area  [size]="15"> 
-            <ng-scrollbar class="lazy-scrollbar" thumbClass="custom-scrollbars-2">
-              <div class="side-drive-tree">           
-                <app-drivetree ></app-drivetree>
-              </div>
-            </ng-scrollbar>
-          </split-area>
-          <split-area [size]="85">
-            <router-outlet></router-outlet>
-          </split-area>
-        </split>
-      </div>      
-    </div>
-  </div>
-<app-alert></app-alert>
-</mat-sidenav-container>
-
+      </ng-scrollbar>
+    </split-area>
+    <split-area [size]="85">
+      <router-outlet></router-outlet>
+    </split-area>
+  </split>
+</div>

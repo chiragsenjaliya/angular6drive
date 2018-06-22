@@ -1,0 +1,23 @@
+
+<div class="card-text-content">  
+  <div *ngIf="element.file_type=='pdf'">
+    <pdf-viewer [src]="element.url" [page]="1"  [render-text]="false" style="display: block;" [show-all]="false" [original-size]="false"></pdf-viewer>
+  </div>
+  <div *ngIf="element.file_type=='image'" >
+    <img height="110px" [src]="element.url">
+  </div>
+  <div *ngIf="element.file_type=='sheet'" >
+    <img height="110px" src="../../../../assets/icon/doc-sheet.png">
+  </div>
+  <div *ngIf="element.file_type=='docs'" >
+    <img height="110px" src="../../../../assets/icon/doc-icon.png">
+  </div>
+  <div *ngIf="element.file_type=='text'" >
+    <img height="110px" src="../../../../assets/icon/text-icon.png">
+  </div>
+  <div *ngIf="element.file_type=='file'">
+    <mat-icon color="primary" >
+      file_copy
+    </mat-icon>
+  </div>  
+</div>

@@ -1,8 +1,37 @@
-<ng-container *ngIf="progressRef.state$ | async; let state">
+<div class="app-drive" [dir]="dir" fxLayout="column" fxflex>
+    <mat-toolbar color="primary" class="top-toolbar" >
+        <mat-toolbar-row>
+            <h1 l10nTranslate>App.Title</h1>
+            <span class="spacer"></span>            
+            <button mat-icon-button [matMenuTriggerFor]="countryMenu" aria-label="Open x-positioned menu">
+                <mat-icon>translate</mat-icon>
+                <mat-menu xPosition="before" #countryMenu="matMenu" class="before">
+                <a *ngFor="let item of countryMenuItems" (click)="selectLocale(item.language, item.country, item.currency, item.numberingSystem);"
+                    mat-menu-item>
+                    {{ item.text }}
+                    <mat-icon *ngIf="currentCountry == item.country && currentNumberingSystem == item.numberingSystem">done</mat-icon>
+                </a>
+                </mat-menu>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="userMenu"  *ngIf="isAuth" aria-label="Open x-positioned menu">
+            <mat-icon>mood</mat-icon>
+            </button>
 
-<mat-progress-bar [@fadeInOut] *ngIf="state.active" [value]="state.value" color="accent"></mat-progress-bar>
+            <mat-menu xPosition="before" #userMenu="matMenu" class="before">
+            <a (click)="AuthenticationService.logout()"  mat-menu-item>
+                Logout
+                <mat-icon>power_settings_new</mat-icon>
+            </a>
+            </mat-menu>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <ng-container *ngIf="progressRef.state$ | async; let state">
 
+        <mat-progress-bar [@fadeInOut] *ngIf="state.active" [value]="state.value" color="accent"></mat-progress-bar>
 
-<router-outlet></router-outlet>
+    <div class="route-container">
+        <router-outlet></router-outlet>
+    </div>
+    </ng-container>
 
-</ng-container>
+</div>

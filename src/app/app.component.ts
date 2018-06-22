@@ -1,5 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { Direction } from "@angular/cdk/bidi";
+import { LocaleService, TranslationService } from "angular-l10n";
+import { AuthenticationService } from "./auth/auth.service";
 import { NgProgress, NgProgressRef } from "@ngx-progressbar/core";
+import { map } from "rxjs/operators";
 import {
   Router,
   NavigationStart,
@@ -13,6 +18,8 @@ import {
   transition,
   trigger
 } from "@angular/animations";
+import { Subscription } from "rxjs";
+
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -35,16 +42,68 @@ import {
 })
 export class AppComponent implements OnInit {
   progressRef: NgProgressRef;
+  countryMenuItems: any[] = [
+    {
+      text: "EN",
+      language: "en",
+      country: "US",
+      currency: "USD",
+      numberingSystem: "latn"
+    },
+    {
+      text: "IT",
+      language: "it",
+      country: "IT",
+      currency: "EUR",
+      numberingSystem: "latn"
+    }
+  ];
 
-  title = "app";
+  get currentCountry(): string {
+    return this.locale.getCurrentCountry();
+  }
+
+  get currentNumberingSystem(): string {
+    return this.locale.getCurrentNumberingSystem();
+  }
+  subscription: Subscription;
+  dir: Direction;
+  isAuth: boolean = false;
+
   constructor(
+    public AuthenticationService: AuthenticationService,
     public ngProgress: NgProgress,
     public router: Router,
-    public cdr: ChangeDetectorRef
+    public cdr: ChangeDetectorRef,
+    public locale: LocaleService,
+    public translation: TranslationService,
+    public title: Title
   ) {}
 
   ngOnInit() {
     this.progressRef = this.ngProgress.ref("ng-progrss");
+    this.AuthenticationService.isAuthorized().subscribe(
+      data => (this.isAuth = data)
+    );
+    // Initializes direction.
+    this.dir = this.getLanguageDirection();
+    this.subscription = this.translation.translationChanged().subscribe(() => {
+      this.title.setTitle(this.translation.translate("App.Title"));
+    });
+  }
+
+  getLanguageDirection(language?: string): Direction {
+    return this.locale.getLanguageDirection(language) as Direction;
+  }
+
+  selectLocale(
+    language: string,
+    country: string,
+    currency: string,
+    numberingSystem: string
+  ): void {
+    this.locale.setDefaultLocale(language, country, "", numberingSystem);
+    this.locale.setCurrentCurrency(currency);
   }
 
   ngAfterViewInit() {
@@ -59,5 +118,9 @@ export class AppComponent implements OnInit {
         this.progressRef.complete();
       }
     });
+  }
+  
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

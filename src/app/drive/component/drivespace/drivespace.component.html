@@ -1,68 +1,79 @@
-<div fxFlex class="main-container" (contextmenu)="openMenu($event, mainMenuTrigger,true)">
-<span [matMenuTriggerFor]="mainMenu" id="mainmenu" #mainMenuTrigger="matMenuTrigger">
-</span>
-<mat-toolbar color="accent" class="foldercrumbs">
-  <span  class="foldercrumbs-item">
-    <span> > </span>
-    <a [routerLink]="['/drive/folder']">
-      / 
-    </a>
+<div fxFlex class="drive-space-container" fxLayout="column" (contextmenu)="openMenu($event, mainMenuTrigger,true)">
+  <span [matMenuTriggerFor]="mainMenu" id="mainmenu" #mainMenuTrigger="matMenuTrigger">
   </span>
-  <span *ngFor="let foldercrumb of foldercrumbs" class="foldercrumbs-item">
-    <span> > </span>
-    <a [routerLink]="['/drive/folder', foldercrumb.id]">
-      {{ foldercrumb.name }}
-    </a>
-  </span>  
-</mat-toolbar>
+  <mat-toolbar color="accent" class="foldercrumbs" fxFlex >
+    <span  class="foldercrumbs-item">
+      <span> > </span>
+      <a [routerLink]="['/drive/folder']">
+        / 
+      </a>
+    </span>
+    <span *ngFor="let foldercrumb of foldercrumbs" class="foldercrumbs-item">
+      <span> > </span>
+      <a [routerLink]="['/drive/folder', foldercrumb.id]">
+        {{ foldercrumb.name }}
+      </a>
+    </span>  
+    <span class="spacer"></span>      
+    <input type="file" #file style="display: none" (change)="onFilesAdded($event.target.files)" multiple />
+  </mat-toolbar>
 
-<div class="container" fxFlex fxLayout="row" >
-  <div class="fileOrFolder" *ngFor="let element of folders">
-    <div *ngIf="element.is_folder">
+  <ng-scrollbar class="lazy-scrollbar" thumbClass="custom-scrollbars-3">  
+    <div class="folder-file-container" >      
       <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger">
-      </span>
-      <mat-card class="drivespaceCard" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)" >  
-        <mat-card-content>
-          <mat-icon color="primary" >
-            folder
-          </mat-icon>
-        </mat-card-content>
-        <mat-card-actions>
-          <mat-divider></mat-divider>
-          <span class="actionname" [matTooltip]="element.name">{{(element.name.length>10)? (element.name | slice:0:10)+'..':(element.name)}}</span>
-        </mat-card-actions>
-      </mat-card>        
+        </span>
+        <div fxFlex *ngFor="let element of folders" class="card-item"  fxFlex.md="24%"
+        fxFlex.lg="24%" fxFlex.sm="50%"  >
+        <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger">
+        </span>   
+        <mat-card *ngIf="element.is_folder"  (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
+          <mat-card-content>
+            <div class="card-text-content">
+              <mat-icon color="primary"  >
+                folder
+              </mat-icon>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <span>{{(element.name.length>20)? (element.name | slice:0:20)+'..':(element.name)}}</span>
+          </mat-card-actions>
+        </mat-card>
+
+        <mat-card *ngIf="!element.is_folder"> 
+          <mat-card-content>
+            <app-folderfilecard [element]="element"></app-folderfilecard>
+          </mat-card-content>
+          <mat-card-actions>
+            <span>{{(element.name.length>20)? (element.name | slice:0:20)+'..':(element.name)}}</span>
+          </mat-card-actions>
+        </mat-card>
+      </div>      
     </div>
-    <div *ngIf="!element.is_folder">
-      <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger">
-      </span>
-      <mat-card class="drivespaceCard"  (contextmenu)="openMenu($event, menuTrigger)" >  
-        <mat-card-content>
-          <div *ngIf="element.file_type=='pdf'">
-            
-            <pdf-viewer [src]="element.url" [original-size]="false"  [show-all]="false" [render-text]="true" style="display: block;"></pdf-viewer>
-          </div>
-          <div *ngIf="element.file_type!='pdf'">
-            <mat-icon color="primary">
-              file_copy
-            </mat-icon>
-          </div>          
-        </mat-card-content>
-        <mat-card-actions>
-          <mat-divider></mat-divider>
-          <span class="actionname" [matTooltip]="element.name">{{(element.name.length>10)? (element.name | slice:0:10)+'..':(element.name)}}</span>
-        </mat-card-actions>
-      </mat-card>        
-    </div>
-  </div>
-</div>
+    
+  </ng-scrollbar>
+<eco-fab-speed-dial [(open)]="open" [direction]="direction" [animationMode]="animationMode" [fixed]="fixed">
+  <eco-fab-speed-dial-trigger>
+    <button mat-fab >
+      <mat-icon>add</mat-icon>
+    </button>
+  </eco-fab-speed-dial-trigger>
+
+  <eco-fab-speed-dial-actions>
+    <button mat-mini-fab (click)="createfolder()">
+      <mat-icon>create_new_folder</mat-icon>
+    </button>
+    <button mat-mini-fab (click)="addFiles()">
+      <mat-icon>cloud_upload</mat-icon>
+    </button>
+  </eco-fab-speed-dial-actions>
+</eco-fab-speed-dial>
 <mat-menu #mainMenu="matMenu" [overlapTrigger]="false">
   <ng-template matMenuContent let-element="element">    
     <button mat-menu-item (click)="openRenameDialog(element)">
       <mat-icon>create</mat-icon>
       <span>Create Folder</span>
     </button>
-    <button mat-menu-item (click)="deleteElement(element)">
+    <button mat-menu-item >
       <mat-icon></mat-icon>
       <span>Upload File</span>
     </button>
@@ -91,5 +102,4 @@
       <button *ngIf="element.id !== self.id" mat-menu-item>{{element.name}}</button>
     </ng-container>
   </ng-template>
-</mat-menu>
-</div>
+</mat-menu> 

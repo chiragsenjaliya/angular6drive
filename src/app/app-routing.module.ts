@@ -5,7 +5,7 @@ import { ProtectedGuard } from "./auth/auth.guard";
 const routes: Routes = [
   {
     path: "",
-    loadChildren: "./auth/auth.module#AuthenticationModule",
+    loadChildren: "./auth/auth.module#AuthenticationModule"
   },
   {
     path: "drive",

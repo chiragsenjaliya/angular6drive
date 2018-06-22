@@ -4,3 +4,19 @@ mat-progress-bar{
     top:0px;
     left:0px;
 }
+
+.app-drive{
+    height:100%;
+    .top-toolbar {
+      position: relative;
+    }
+
+    .toolbar-icon {
+      padding: 0 14px;
+    }
+
+    .route-container{
+        flex:1;
+    }
+
+}

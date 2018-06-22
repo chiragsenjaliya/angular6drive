@@ -1,13 +1,12 @@
-.drive-split {
-  height: 90vh;  
+:host{
+  display:flex;
+  height:90vh;
+  overflow:hidden;
+  .drive-data-container {    
+    .side-drive-tree {
+      overflow-x: hidden;
+      overflow-y: auto;      
+    }
+  }
 }
 
-:host {
-  display: block;
-  width: 100%;  
-}
-
-.side-drive-tree {
-  overflow: auto; 
-  margin-left: 15px;
-}

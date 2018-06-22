@@ -1,9 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
-
-@import './assets/styles/variables.scss';
-@import './assets/styles/app-theme.scss';
-@import './assets/styles/app.scss';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~angular-tree-component/dist/angular-tree-component.css';
+$font-family: Roboto,
+'Helvetica Neue',
+sans-serif !default;
+// Media queries.
+$xsmall: 'max-width: 600px';
+$small: 'max-width: 960px';
+// Color palette.
+$blue: #1976D2;
+$accentblue: #1E88E5;
+$brightred: #DD0031;
+$darkred: #C3002F;
+$white: #FFFFFF;
+$offwhite: #FAFAFA;
+$backgroundgray: #F1F1F1;
+$lightgray: #DBDBDB;
+$mist: #ECEFF1;
+$mediumgray: #6e6e6e;
+$darkgray: #333;
+$black: #0A1014;
+$orange: #FF9800;
+
+body {
+  font-family: $font-family;
+  padding:0;
+  margin:0;
+  overflow: hidden;
+  height:100vh;
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
 .node-wrapper {
   margin-left: 5px;
   padding: 10px;
@@ -174,3 +208,14 @@ tree-node:last-child>.tree-node>.tree-children::after {
   font-size: 12px
 }
 
+.mat-dialog-container{
+  padding:0!important;
+}
+
+.mat-dialog-content{
+  margin:5px!important;
+}
+
+.mat-dialog-actions {
+  margin:0 !important;
+}

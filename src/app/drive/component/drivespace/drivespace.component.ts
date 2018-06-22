@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 import { ActivatedRoute,Router } from "@angular/router";
 import { FoldertreeService } from '../../services/foldertree.service';
 import { MatMenuTrigger, MatDialog } from "@angular/material";
 import { UploadService } from "../../services/upload.service";
 import { ProcessLoaderDialogComponent } from "../../dialog/process-loader-dialog/process-loader-dialog.component";
+import { UploaddialogComponent } from "../../dialog/uploaddialog/uploaddialog.component";
 
 @Component({
   selector: "app-drivespace",
@@ -15,6 +16,12 @@ export class DrivespaceComponent implements OnInit {
   folders: any;
   foldercrumbs: any;
   paramval: any;
+  @ViewChild("file") file;
+
+  public open = false;
+  public spin = false;
+  public direction = 'up';
+  public animationMode = 'fling';
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -78,6 +85,24 @@ export class DrivespaceComponent implements OnInit {
     viewChild.openMenu();
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  addFiles() {
+    this.file.nativeElement.click();
+  }
+
+  onFilesAdded(files: FileList) {
+    if (files) {
+      this.openUploadDialog(files);
+    }
+  }
+
+  public openUploadDialog(files) {
+    let dialogRef = this.dialog.open(UploaddialogComponent, {
+      width: "50%",
+      disableClose: false,
+      data: { files: files, slug: this.paramval }
+    });
   }
 
 }
