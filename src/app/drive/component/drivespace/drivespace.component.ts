@@ -5,6 +5,7 @@ import { MatMenuTrigger, MatDialog } from "@angular/material";
 import { UploadService } from "../../services/upload.service";
 import { ProcessLoaderDialogComponent } from "../../dialog/process-loader-dialog/process-loader-dialog.component";
 import { UploaddialogComponent } from "../../dialog/uploaddialog/uploaddialog.component";
+import { PreviewComponent } from "../../dialog/preview/preview.component";
 
 @Component({
   selector: "app-drivespace",
@@ -20,8 +21,8 @@ export class DrivespaceComponent implements OnInit {
 
   public open = false;
   public spin = false;
-  public direction = 'up';
-  public animationMode = 'fling';
+  public direction = "up";
+  public animationMode = "fling";
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -50,13 +51,33 @@ export class DrivespaceComponent implements OnInit {
       this.foldertreeService.activeNode.next(this.paramval);
       this.foldertreeService.isFolderCreated.subscribe(
         data => {
-          if (data) {           
+          if (data) {
             this.getFileFolders(this.paramval);
             this.foldertreeService.isFolderCreated.next(false);
           }
         },
         error => console.log(error)
       );
+      this.foldertreeService.createUploadtry.subscribe(data => {
+        if (data == 0 || data) {
+          if (data == 0) {
+            data = "";
+          }
+          this.foldertreeService.createUploadtry.next(null);
+        }
+      });
+    });
+
+    this.foldertreeService.isUpload.subscribe(data => {
+      if (data) {
+        this.foldertreeService.getFolders(this.paramval).subscribe(result => {
+          this.folders = result.data.folderfile;
+          this.foldercrumbs = result.data.breadcrumb;
+          if (result.data) {
+            this.ref.markForCheck();
+          }
+        });
+      }
     });
   }
 
@@ -79,9 +100,12 @@ export class DrivespaceComponent implements OnInit {
       var menu = document.getElementById("mainmenu");
       menu.style.display = "";
       menu.style.position = "absolute";
-      menu.style.left = event.pageX + 5 + "px";
-      menu.style.top = event.pageY + 5 + "px";
+      menu.style.left = event.pageX + "px";
+      menu.style.top = event.pageY + "px";
+    } else {
+      var menu = document.getElementById("folderfilemenu");
     }
+    
     viewChild.openMenu();
     event.preventDefault();
     event.stopPropagation();
@@ -93,16 +117,41 @@ export class DrivespaceComponent implements OnInit {
 
   onFilesAdded(files: FileList) {
     if (files) {
-      this.openUploadDialog(files);
+      this.openUploadDialog(files, this.paramval);
     }
   }
 
-  public openUploadDialog(files) {
-    let dialogRef = this.dialog.open(UploaddialogComponent, {
-      width: "50%",
+  createFolder(element: any = null) {
+    if (element) {
+      this.foldertreeService.createFoldertry.next(element.id);
+    } else {
+      if (this.paramval == "") {
+        this.paramval = 0;
+      }
+      this.foldertreeService.createFoldertry.next(this.paramval);
+    }
+  }
+
+  uploadFile() {
+    this.addFiles();
+  }
+
+  openPreview(element){
+    let dialogRef = this.dialog.open(PreviewComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%',
       disableClose: false,
-      data: { files: files, slug: this.paramval }
+      data: { file: element }
     });
   }
 
+  public openUploadDialog(files, slug) {
+    let dialogRef = this.dialog.open(UploaddialogComponent, {
+      width: "50%",
+      disableClose: false,
+      data: { files: files, slug: slug }
+    });
+  }
 }

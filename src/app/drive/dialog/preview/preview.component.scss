@@ -1,0 +1,27 @@
+.mat-dialog-content {
+    max-height:85vh !important;
+    overflow: hidden;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      float:right;
+    }
+    .card-file-content{
+        div{
+            height:83vh;
+            width:80vw;
+            overflow: hidden;
+        }    
+    }
+
+    .page-option{
+        padding:5px;
+        div{
+            margin:2px;
+            input{
+                width:50px;
+                display: inline-flex;
+            }
+        }
+    }
+}

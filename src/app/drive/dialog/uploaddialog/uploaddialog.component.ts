@@ -25,7 +25,7 @@ import {
 } from "@angular/common/http";
 import {  Subscription, of } from 'rxjs';
 import { catchError, last, map, tap } from "rxjs/operators";
-import { jsonpCallbackContext } from "@angular/common/http/src/module";
+import { FoldertreeService } from "../../services/foldertree.service";
 
 export class FileUploadModel {
   data: File;
@@ -67,7 +67,8 @@ export class UploaddialogComponent implements OnInit {
     public dialogRef: MatDialogRef<UploaddialogComponent>,
     private _http: HttpClient,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private foldertreeService:FoldertreeService
   ) {
     for (let index = 0; index < data.files.length; index++) {
       const file: File = data.files[index];
@@ -79,7 +80,7 @@ export class UploaddialogComponent implements OnInit {
         uploaded: 0,
         canRetry: false,
         canCancel: true,
-        isuploaded:false,
+        isuploaded: false
       });
     }
     this.slug = data.slug;
@@ -93,15 +94,22 @@ export class UploaddialogComponent implements OnInit {
     this.files.forEach((file, key) => {
       this.uploadFile(key);
     });
+
+    this.foldertreeService.isUpload.next(false);
   }
 
-  uploadFile(index) {    
+  uploadFile(index) {
+    this.foldertreeService.isUpload.next(false);
     const headers = new HttpHeaders();
     headers.append("Content-Type", "application/x-www-form-urlencoded");
     headers.append("Accept", "application/json");
     const formData = new FormData();
 
-    formData.append("fileItem", this.files[index].data, this.files[index].data.name);
+    formData.append(
+      "fileItem",
+      this.files[index].data,
+      this.files[index].data.name
+    );
     formData.append("slug", this.slug);
 
     const req = new HttpRequest("POST", this.target, formData, {
@@ -116,8 +124,10 @@ export class UploaddialogComponent implements OnInit {
         map(event => {
           switch (event.type) {
             case HttpEventType.UploadProgress:
-              this.files[index].progress = Math.round((event.loaded * 100) / event.total); 
-              this.files[index].uploaded = event.loaded;       
+              this.files[index].progress = Math.round(
+                (event.loaded * 100) / event.total
+              );
+              this.files[index].uploaded = event.loaded;
               this.ref.detectChanges();
               break;
             case HttpEventType.Response:
@@ -134,10 +144,11 @@ export class UploaddialogComponent implements OnInit {
         })
       )
       .subscribe((event: any) => {
-        if (typeof event === "object") {          
+        if (typeof event === "object") {
           this.files[index].canCancel = false;
           this.files[index].canRetry = false;
           this.files[index].isuploaded = true;
+          this.foldertreeService.isUpload.next(true);
           this.ref.detectChanges();
         }
       });
@@ -148,9 +159,10 @@ export class UploaddialogComponent implements OnInit {
     this.removeFileFromArray(file);
   }
 
-  retryFile(file: FileUploadModel) {
-    this.uploadFile(file);
-    file.canRetry = false;
+  retryFile(index) {
+    console.log(index);
+    this.uploadFile(index);
+    this.files[index].canRetry = false;
   }
 
   private removeFileFromArray(file: FileUploadModel) {

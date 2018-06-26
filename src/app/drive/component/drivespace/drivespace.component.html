@@ -1,6 +1,7 @@
 <div fxFlex class="drive-space-container" fxLayout="column" (contextmenu)="openMenu($event, mainMenuTrigger,true)">
   <span [matMenuTriggerFor]="mainMenu" id="mainmenu" #mainMenuTrigger="matMenuTrigger">
   </span>
+  
   <mat-toolbar color="accent" class="foldercrumbs" fxFlex >
     <span  class="foldercrumbs-item">
       <span> > </span>
@@ -19,13 +20,11 @@
   </mat-toolbar>
 
   <ng-scrollbar class="lazy-scrollbar" thumbClass="custom-scrollbars-3">  
-    <div class="folder-file-container" >      
-      <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger">
-        </span>
+    <div class="folder-file-container" > 
         <div fxFlex *ngFor="let element of folders" class="card-item"  fxFlex.md="24%"
-        fxFlex.lg="24%" fxFlex.sm="50%"  >
-        <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger">
-        </span>   
+        fxFlex.lg="24%" fxFlex.sm="50%"  >          
+        <span [matMenuTriggerFor]="rootMenu" id="folderfilemenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger">
+            </span>
         <mat-card *ngIf="element.is_folder"  (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
           <mat-card-content>
             <div class="card-text-content">
@@ -34,19 +33,19 @@
               </mat-icon>
             </div>
           </mat-card-content>
-          <mat-card-actions>
-            <span>{{(element.name.length>20)? (element.name | slice:0:20)+'..':(element.name)}}</span>
+          <mat-card-actions [matTooltip]="element.name">
+            <span>{{(element.name.length>20)? (element.name | slice:0:20)+'..':(element.name)}}</span>            
           </mat-card-actions>
         </mat-card>
 
-        <mat-card *ngIf="!element.is_folder"> 
+        <mat-card *ngIf="!element.is_folder" (contextmenu)="openMenu($event, menuTrigger)"> 
           <mat-card-content>
             <app-folderfilecard [element]="element"></app-folderfilecard>
           </mat-card-content>
-          <mat-card-actions>
+          <mat-card-actions [matTooltip]="element.name">
             <span>{{(element.name.length>20)? (element.name | slice:0:20)+'..':(element.name)}}</span>
           </mat-card-actions>
-        </mat-card>
+        </mat-card>        
       </div>      
     </div>
     
@@ -59,21 +58,21 @@
   </eco-fab-speed-dial-trigger>
 
   <eco-fab-speed-dial-actions>
-    <button mat-mini-fab (click)="createfolder()">
+    <button mat-mini-fab (click)="createFolder()" matTooltip="Create Folder" matTooltipPosition="left">
       <mat-icon>create_new_folder</mat-icon>
     </button>
-    <button mat-mini-fab (click)="addFiles()">
+    <button mat-mini-fab (click)="addFiles()" matTooltip="Upload File" matTooltipPosition="left">
       <mat-icon>cloud_upload</mat-icon>
     </button>
   </eco-fab-speed-dial-actions>
 </eco-fab-speed-dial>
 <mat-menu #mainMenu="matMenu" [overlapTrigger]="false">
   <ng-template matMenuContent let-element="element">    
-    <button mat-menu-item (click)="openRenameDialog(element)">
+    <button mat-menu-item (click)="createFolder(element)">
       <mat-icon>create</mat-icon>
       <span>Create Folder</span>
     </button>
-    <button mat-menu-item >
+    <button mat-menu-item (click)="uploadFile()">
       <mat-icon></mat-icon>
       <span>Upload File</span>
     </button>
@@ -81,15 +80,19 @@
 </mat-menu>
 <mat-menu #rootMenu="matMenu" [overlapTrigger]="false">
   <ng-template matMenuContent let-element="element">
-    <button mat-menu-item [matMenuTriggerFor]="moveToMenu" [matMenuTriggerData]="{self: element}">
+    <!-- <button mat-menu-item [matMenuTriggerFor]="moveToMenu" [matMenuTriggerData]="{self: element}">
       <mat-icon>open_with</mat-icon>
       <span>Move To</span>
+    </button> -->
+    <button mat-menu-item (click)="openPreview(element)" *ngIf="element.is_folder==0">
+      <mat-icon>visibility</mat-icon>
+      <span>Preview</span>
     </button>
-    <button mat-menu-item (click)="openRenameDialog(element)">
+    <button mat-menu-item >
       <mat-icon>edit</mat-icon>
       <span>Rename</span>
     </button>
-    <button mat-menu-item (click)="deleteElement(element)">
+    <button mat-menu-item >
       <mat-icon>delete</mat-icon>
       <span>Delete</span>
     </button>
@@ -99,7 +102,7 @@
 <mat-menu #moveToMenu="matMenu">
   <ng-template matMenuContent let-self="self">
     <ng-container *ngFor="let element of folders">
-      <button *ngIf="element.id !== self.id" mat-menu-item>{{element.name}}</button>
+      <button *ngIf="element.id !== self.id && element.is_folder==1" mat-menu-item>{{element.name}}</button>
     </ng-container>
   </ng-template>
 </mat-menu> 

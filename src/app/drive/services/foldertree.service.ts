@@ -14,6 +14,9 @@ export class FoldertreeService {
   public nodes: any;
   public isFolderCreated = new Subject();
   public activeNode = new Subject();
+  public isUpload = new Subject();
+  public createFoldertry = new Subject();
+  public createUploadtry = new Subject();
 
   constructor(private http: HttpClient) {}
 
@@ -30,8 +33,8 @@ export class FoldertreeService {
    */
 
   public foldrertree(nodeId): any {
-    if (nodeId==0){
-      nodeId="";
+    if (nodeId == 0) {
+      nodeId = "";
     }
     return this.http
       .get(this.foldrertreeUrl + "/" + nodeId)

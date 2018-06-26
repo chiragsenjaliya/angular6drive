@@ -14,6 +14,8 @@ import { ProcessLoaderDialogComponent } from "./dialog/process-loader-dialog/pro
 import { UploaddialogComponent } from "./dialog/uploaddialog/uploaddialog.component";
 import { FolderfilecardComponent } from './component/folderfilecard/folderfilecard.component';
 import { EcoFabSpeedDialModule} from "@ecodev/fab-speed-dial";
+import { PreviewComponent } from './dialog/preview/preview.component';
+import { ImageViewerModule } from "@hallysonh/ngx-imageviewer";
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { EcoFabSpeedDialModule} from "@ecodev/fab-speed-dial";
     SharedModule,
     AngularSplitModule.forRoot(),
     EcoFabSpeedDialModule,
-    TreeModule
+    TreeModule,
+    ImageViewerModule
   ],
   declarations: [
     DriveComponent,
@@ -31,12 +34,14 @@ import { EcoFabSpeedDialModule} from "@ecodev/fab-speed-dial";
     CreateFolderDialogComponent,
     ProcessLoaderDialogComponent,
     UploaddialogComponent,
-    FolderfilecardComponent
+    FolderfilecardComponent,
+    PreviewComponent
   ],
   entryComponents: [
     CreateFolderDialogComponent,
     ProcessLoaderDialogComponent,
-    UploaddialogComponent
+    UploaddialogComponent,
+    PreviewComponent
   ]
 })
 export class DriveModule {}

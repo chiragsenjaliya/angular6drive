@@ -78,7 +78,10 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/pdfjs-dist/build/pdf.min.js" ,
+              "node_modules/pdfjs-dist/build/pdf.worker.min.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

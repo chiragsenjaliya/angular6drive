@@ -15,11 +15,12 @@
 
       <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
         <ng-template matMenuContent>
-          <button mat-menu-item (click)="createFolder(node,foldertree)">
+          <button mat-menu-item (click)="createFolder(node)">
             <mat-icon>create_new_folder</mat-icon> Create Folder</button>
-          <button mat-menu-item>
+          <button mat-menu-item (click)="uploadFile(node)">
             <mat-icon>cloud_upload</mat-icon> Upload File</button>
         </ng-template>
       </mat-menu>
     </ng-template>
 </tree-root> 
+<input type="file" #uploadfile style="display: none" (change)="onFilesAdded($event.target.files)" multiple />

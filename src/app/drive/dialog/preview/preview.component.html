@@ -1,0 +1,74 @@
+<!-- <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple /> -->
+<div class="container" fxLayout="column" fxLayoutAlign="space-evenly stretch" >
+  <mat-toolbar mat-dialog-title color="primary">
+    <mat-toolbar-row>
+      <span>File Preview ({{element.name}})</span>
+      <span class="spacer"></span> 
+      <button mat-icon-button>
+        <mat-icon>cloud_download</mat-icon>
+      </button>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-dialog-content fxFlex #fileviewr fxLayout="row" >
+    <div class="file-options">      
+      <div class="page-option" fxLayout="column" *ngIf="element.file_type=='pdf' || isLoaded">
+        <div>
+          <button mat-mini-fab (click)="incrementZoom(-0.1)" mat-button type="button">
+            -
+          </button>
+        </div>
+        <div>
+          <input type="text" type="number" min="0.1" placeholder="Zoom" [(ngModel)]="zoom" pattern="-?[0-9]*(\.[0-9]+)?">
+        </div>
+        <div>
+          <button mat-mini-fab (click)="incrementZoom(0.1)" mat-button type="button">
+            +
+          </button>
+        </div>
+      </div>
+      <div class="page-option" fxLayout="column" *ngIf="element.file_type=='pdf' || isLoaded">
+          <div>
+            <button mat-mini-fab (click)="prevPage()" [disabled]="page === 1">Prev</button>
+          </div>
+          <div><input type="text" class="pdfinput" [(ngModel)]="page"> / {{ totalPages }}</div>
+          <div>
+            <button mat-mini-fab (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+          </div>
+      </div>          
+    </div>  
+    
+    <div class="card-file-content"> 
+      
+      <div *ngIf="element.file_type=='pdf'">         
+        <ng-scrollbar class="lazy-scrollbar" thumbClass="custom-scrollbars-2" trackX="true">
+        <pdf-viewer [src]="element.url"
+                    [show-all]="false"
+                    [page]="page"
+                    [zoom]="zoom"
+                    (after-load-complete)="afterLoadComplete($event)"
+        ></pdf-viewer>
+        </ng-scrollbar>
+      </div>        
+      <div *ngIf="element.file_type=='image'">
+        <img  [src]="element.url" >
+      </div>
+      <div *ngIf="element.file_type=='docs' || element.file_type=='sheet' || element.file_type=='text'" > 
+        <iframe src="http://docs.google.com/viewer?url=http://www.iiswc.org/iiswc2009/sample.doc&embedded=true"  style="position: absolute;width:95%; height: 100%;border: none;"></iframe>
+      </div>
+      <div *ngIf="element.file_type=='audio'">
+        <img  src="../../../../assets/icon/music-icon.png">
+      </div>
+      <div *ngIf="element.file_type=='video'">
+        <img  src="../../../../assets/icon/video-icon.png">
+      </div>
+      <div *ngIf="element.file_type=='file'">
+        <mat-icon color="primary">
+          file_copy
+        </mat-icon>
+      </div>      
+    </div>
+  </mat-dialog-content>
+</div>

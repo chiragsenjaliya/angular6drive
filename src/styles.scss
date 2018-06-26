@@ -219,3 +219,7 @@ tree-node:last-child>.tree-node>.tree-children::after {
 .mat-dialog-actions {
   margin:0 !important;
 }
+
+.ng2-pdf-viewer-container{
+  overflow-x: unset !important;
+}

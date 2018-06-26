@@ -6,18 +6,22 @@ import { MatDialog } from "@angular/material";
 import { AlertService } from "../../../shared/services/alert.service";
 import { CreateFolderDialogComponent } from "../../dialog/create-folder-dialog/create-folder-dialog.component";
 import { ProcessLoaderDialogComponent } from "../../dialog/process-loader-dialog/process-loader-dialog.component";
+import { UploaddialogComponent } from "../../dialog/uploaddialog/uploaddialog.component";
+
 @Component({
   selector: "app-drivetree",
   templateUrl: "./drivetree.component.html",
   styleUrls: ["./drivetree.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DrivetreeComponent implements OnInit {
   @ViewChild("foldertree") folderTree;
-  nodes:any;
+  @ViewChild("uploadfile") file;
+  uploadFolder:any;
+  nodes: any;
 
   options = {
-    useVirtualScroll: false,
+    useVirtualScroll: false
   };
   constructor(
     private foldertreeService: FoldertreeService,
@@ -33,23 +37,23 @@ export class DrivetreeComponent implements OnInit {
         return this.foldertreeService
           .foldrertree(data)
           .then(result => {
-            if(result.data){
+            if (result.data) {
               this.nodes = [
                 {
                   name: "/",
                   hasChildren: true,
-                  isExpanded:true,
+                  isExpanded: true,
                   id: "0",
                   children: result.data
                 }
-              ];             
-              
-            }else{
-              this.nodes = [{ name: "/", hasChildren: false, id: "0",isActive:true}];
-              
+              ];
+            } else {
+              this.nodes = [
+                { name: "/", hasChildren: false, id: "0", isActive: true }
+              ];
             }
             this.folderTree.treeModel.update();
-            this.ref.detectChanges();  
+            this.ref.detectChanges();
             this.folderTree.treeModel.doForAll(treeNode => {
               if (treeNode.data.isActive === true) {
                 treeNode.toggleActivated();
@@ -57,16 +61,23 @@ export class DrivetreeComponent implements OnInit {
               if (treeNode.data.isFocused === true) {
                 this.folderTree.treeModel.setFocus(treeNode);
               }
-            });            
+            });
           })
           .catch(error => {
             console.log(error);
             return [];
           });
-        
       },
       error => console.log(error)
     );
+
+    this.foldertreeService.createFoldertry.subscribe(data => {
+      if (data == 0 || data) {
+        let node = this.folderTree.treeModel.getNodeById(data);
+        this.createFolder(node);
+        this.foldertreeService.createFoldertry.next(null);
+      }
+    });
   }
 
   contextMenuOpen($event, menutrigger) {
@@ -88,7 +99,7 @@ export class DrivetreeComponent implements OnInit {
     isexpand ? TREE_ACTIONS.COLLAPSE : TREE_ACTIONS.EXPAND;
   }
 
-  createFolder(node, foldertree) {
+  createFolder(node) {
     let dialogRef = this.dialog.open(CreateFolderDialogComponent, {
       width: "250px",
       data: { name: "" },
@@ -96,8 +107,6 @@ export class DrivetreeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(resultdialog => {
-      console.log(resultdialog);
-      
       if (resultdialog) {
         let dialogRef2 = this.dialog.open(ProcessLoaderDialogComponent, {
           width: "250px",
@@ -110,7 +119,7 @@ export class DrivetreeComponent implements OnInit {
           .subscribe(result => {
             if (node.data.children) {
               node.data.children.push(result.data);
-              foldertree.treeModel.update();
+              this.folderTree.treeModel.update();
               this.ref.markForCheck();
               dialogRef2.close();
               this.foldertreeService.activeNode.next(node.id);
@@ -118,7 +127,7 @@ export class DrivetreeComponent implements OnInit {
             } else {
               node.data.children = [];
               node.data.children.push(result.data);
-              foldertree.treeModel.update();
+              this.folderTree.treeModel.update();
               this.ref.markForCheck();
               dialogRef2.close();
               this.foldertreeService.activeNode.next(node.id);
@@ -127,5 +136,31 @@ export class DrivetreeComponent implements OnInit {
           });
       }
     });
+  }
+
+  addFiles() {
+    this.file.nativeElement.click();
+  }
+
+  onFilesAdded(files: FileList) {
+    if (files) {
+      if (this.uploadFolder == 0) { this.uploadFolder=''; }
+      this.openUploadDialog(files, this.uploadFolder);
+    }
+  }
+
+  public openUploadDialog(files, slug) {
+    if(files){
+      let dialogRef = this.dialog.open(UploaddialogComponent, {
+        width: "50%",
+        disableClose: false,
+        data: { files: files, slug: slug }
+      });
+    }
+  }
+
+  uploadFile(node) {
+    this.uploadFolder=node.id;
+    this.addFiles();
   }
 }

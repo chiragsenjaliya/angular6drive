@@ -7,12 +7,12 @@
 </mat-toolbar>
 <mat-dialog-content fxFlex > 
   <table>
-    <tr *ngFor="let file of files" [@fadeInOut]="file.state">
+    <tr *ngFor="let file of files; let index = index" [@fadeInOut]="file.state">
       <td class="filename">{{file.data.name}}</td>
       <td class="filesize">{{file.uploaded | filesize}} / {{file.data.size | filesize}}</td>
       <td class="fileprogress"> 
         <mat-progress-bar mode="determinate" [value]="file.progress"></mat-progress-bar>
-        <a title="Retry" (click)="retryFile(file)" *ngIf="file.canRetry">
+        <a title="Retry" (click)="retryFile(index)" *ngIf="file.canRetry">
           <mat-icon>refresh</mat-icon>
         </a>
         <a title="Cancel" (click)="cancelFile(file)" *ngIf="file.canCancel">

@@ -85,4 +85,3 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
 * ANGULAR MATERIAL IMPORTS
 */
-import 'hammerjs';
