@@ -40,6 +40,7 @@ export class RegisterComponent implements OnInit {
   returnUrl: string;
   hidepass = true;
   hideconfirm = true;
+  message: string;
   progressRef: NgProgressRef;
 
   constructor(
@@ -52,6 +53,13 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.AuthenticationService.isAuthorized().subscribe(data => {
+      if (data) {
+        // this.message = "Please Logout First!";
+        // this.alertService.errorMessage(this.message, true);
+        this.router.navigate(["/drive"]);
+      }
+    });
     this.progressRef = this.ngProgress.ref("ng-progrss");
     this.registerForm = this.formBuilder.group({
       first_name: ["", [Validators.required]],

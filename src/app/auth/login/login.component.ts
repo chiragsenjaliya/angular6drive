@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+  message:string;
   progressRef: NgProgressRef;
 
   constructor(
@@ -52,6 +53,14 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.authenticationService.isAuthorized().subscribe(data=>{
+      if (data) {        
+        // this.message = "Please Logout First!";
+        // this.alertService.errorMessage(this.message, true);
+        this.router.navigate(["/drive"]);
+      }
+    });
+    
     this.progressRef = this.ngProgress.ref("ng-progrss");
     this.loginForm = this.formBuilder.group({
       email: ["", [Validators.required, ValidationService.emailValidator]],

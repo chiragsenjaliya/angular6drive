@@ -75,12 +75,14 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": [
+            "styles": [             
               "src/styles.scss"
+              
             ],
             "scripts": [
               "node_modules/pdfjs-dist/build/pdf.min.js" ,
-              "node_modules/pdfjs-dist/build/pdf.worker.min.js"
+              "node_modules/pdfjs-dist/build/pdf.worker.min.js",
+              "node_modules/file-saver/FileSaver.js"
             ],
             "assets": [
               "src/favicon.ico",

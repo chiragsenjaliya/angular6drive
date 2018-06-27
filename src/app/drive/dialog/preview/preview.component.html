@@ -2,9 +2,9 @@
 <div class="container" fxLayout="column" fxLayoutAlign="space-evenly stretch" >
   <mat-toolbar mat-dialog-title color="primary">
     <mat-toolbar-row>
-      <span>File Preview ({{element.name}})</span>
+      <span>{{element.name}}</span>
       <span class="spacer"></span> 
-      <button mat-icon-button>
+      <button mat-icon-button (click)="download(element)">
         <mat-icon>cloud_download</mat-icon>
       </button>
       <button mat-icon-button mat-dialog-close>
@@ -56,18 +56,41 @@
         <img  [src]="element.url" >
       </div>
       <div *ngIf="element.file_type=='docs' || element.file_type=='sheet' || element.file_type=='text'" > 
-        <iframe src="http://docs.google.com/viewer?url=http://www.iiswc.org/iiswc2009/sample.doc&embedded=true"  style="position: absolute;width:95%; height: 100%;border: none;"></iframe>
+        <iframe [src]="'http://docs.google.com/viewer?url='+element.url+'&embedded=true'"  style="position: absolute;width:95%; height: 100%;border: none;"></iframe>
       </div>
-      <div *ngIf="element.file_type=='audio'">
-        <img  src="../../../../assets/icon/music-icon.png">
-      </div>
-      <div *ngIf="element.file_type=='video'">
-        <img  src="../../../../assets/icon/video-icon.png">
+      <div *ngIf="element.file_type=='video' || element.file_type=='audio'">
+      <vg-player [ngStyle]="{'height': element.file_type=='audio' ? '50px' : 'auto'}">
+        <vg-overlay-play *ngIf="element.file_type=='video'"></vg-overlay-play>
+        <vg-buffering></vg-buffering>
+
+        <vg-scrub-bar>
+          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+        </vg-scrub-bar>
+
+        <vg-controls>
+          <vg-play-pause></vg-play-pause>          
+
+          <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+
+          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+          <vg-mute></vg-mute>
+          <vg-volume></vg-volume>
+
+          <vg-fullscreen></vg-fullscreen>
+        </vg-controls>
+
+        <video *ngIf="element.file_type=='video'" [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
+          <source [src]="element.url" [type]="element.type">        
+        </video>
+        <audio *ngIf="element.file_type=='audio'" #media [vgMedia]="media" id="myAudio" preload="auto">
+        <source  [src]="element.url" [type]="element.type">
+    </audio>
+      </vg-player>       
       </div>
       <div *ngIf="element.file_type=='file'">
-        <mat-icon color="primary">
-          file_copy
-        </mat-icon>
+        <h2>Preview for this file is not possible! Please download it in your machine for preview!</h2>
       </div>      
     </div>
   </mat-dialog-content>

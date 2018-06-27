@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { TokenStorageService } from './token-storage.service';
+import { TokenStorage } from './token-storage.service';
 
-describe('TokenStorageService', () => {
+describe('TokenStorage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TokenStorageService]
+      providers: [TokenStorage]
     });
   });
 
-  it('should be created', inject([TokenStorageService], (service: TokenStorageService) => {
+  it('should be created', inject([TokenStorage], (service: TokenStorage) => {
     expect(service).toBeTruthy();
   }));
 });

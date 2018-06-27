@@ -150,7 +150,7 @@ export class DrivespaceComponent implements OnInit {
   public openUploadDialog(files, slug) {
     let dialogRef = this.dialog.open(UploaddialogComponent, {
       width: "50%",
-      disableClose: false,
+      disableClose: true,
       data: { files: files, slug: slug }
     });
   }

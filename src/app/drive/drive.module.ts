@@ -16,6 +16,10 @@ import { FolderfilecardComponent } from './component/folderfilecard/folderfileca
 import { EcoFabSpeedDialModule} from "@ecodev/fab-speed-dial";
 import { PreviewComponent } from './dialog/preview/preview.component';
 import { ImageViewerModule } from "@hallysonh/ngx-imageviewer";
+import { VgCoreModule } from 'videogular2/core';
+import { VgControlsModule } from 'videogular2/controls';
+import { VgOverlayPlayModule } from 'videogular2/overlay-play';
+import { VgBufferingModule } from 'videogular2/buffering';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,7 +29,11 @@ import { ImageViewerModule } from "@hallysonh/ngx-imageviewer";
     AngularSplitModule.forRoot(),
     EcoFabSpeedDialModule,
     TreeModule,
-    ImageViewerModule
+    ImageViewerModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule
   ],
   declarations: [
     DriveComponent,
@@ -42,6 +50,7 @@ import { ImageViewerModule } from "@hallysonh/ngx-imageviewer";
     ProcessLoaderDialogComponent,
     UploaddialogComponent,
     PreviewComponent
-  ]
+  ],
+  bootstrap: [PreviewComponent]
 })
 export class DriveModule {}

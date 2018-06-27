@@ -60,8 +60,9 @@ export class UploaddialogComponent implements OnInit {
   @Input() target = "http://localhost:8000/api/upload-file";
   /** Allow you to add handler after its completion. Bubble up response text from remote. */
   @Output() complete = new EventEmitter<string>();
-  private files: Array<FileUploadModel> = [];
+  public files: Array<FileUploadModel> = [];
   slug: any;
+  close:boolean=false;
 
   constructor(
     public dialogRef: MatDialogRef<UploaddialogComponent>,
@@ -94,31 +95,32 @@ export class UploaddialogComponent implements OnInit {
     this.files.forEach((file, key) => {
       this.uploadFile(key);
     });
-
+    this.close=true;
     this.foldertreeService.isUpload.next(false);
   }
 
   uploadFile(index) {
     this.foldertreeService.isUpload.next(false);
-    const headers = new HttpHeaders();
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
-    headers.append("Accept", "application/json");
-    const formData = new FormData();
+    if (this.files[index].uploaded==0){
+      const headers = new HttpHeaders();
+      headers.append("Content-Type", "application/x-www-form-urlencoded");
+      headers.append("Accept", "application/json");
+      const formData = new FormData();
 
-    formData.append(
-      "fileItem",
-      this.files[index].data,
-      this.files[index].data.name
-    );
-    formData.append("slug", this.slug);
+      formData.append(
+        "fileItem",
+        this.files[index].data,
+        this.files[index].data.name
+      );
+      formData.append("slug", this.slug);
 
-    const req = new HttpRequest("POST", this.target, formData, {
-      headers,
-      reportProgress: true
-    });
-    this.files[index].inProgress = true;
-    this.ref.detectChanges();
-    this.files[index].sub = this._http
+      const req = new HttpRequest("POST", this.target, formData, {
+        headers,
+        reportProgress: true
+      });
+      this.files[index].inProgress = true;
+      this.ref.detectChanges();
+      this.files[index].sub = this._http
       .request(req)
       .pipe(
         map(event => {
@@ -147,11 +149,13 @@ export class UploaddialogComponent implements OnInit {
         if (typeof event === "object") {
           this.files[index].canCancel = false;
           this.files[index].canRetry = false;
+          this.files[index].uploaded = 1;
           this.files[index].isuploaded = true;
           this.foldertreeService.isUpload.next(true);
           this.ref.detectChanges();
         }
       });
+    }
   }
 
   cancelFile(file: FileUploadModel) {
@@ -160,7 +164,6 @@ export class UploaddialogComponent implements OnInit {
   }
 
   retryFile(index) {
-    console.log(index);
     this.uploadFile(index);
     this.files[index].canRetry = false;
   }

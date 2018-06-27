@@ -20,6 +20,7 @@ export class AuthenticationService {
   public registerurl = environment.serverapiUrl + "register";
   public loginurl = environment.serverUrl + "oauth/token";
   public logouturl = environment.serverapiUrl + "logout";
+  public token:string;
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorage) {}
 
@@ -140,6 +141,7 @@ export class AuthenticationService {
    * @param {AccessData} data
    */
   private saveAccessData({ access_token, expires_in, refresh_oken, token_type }: AccessData) {
+    this.token = access_token;
     this.tokenStorage
       .setAccessToken(access_token)
       .setRefreshToken(refresh_oken);

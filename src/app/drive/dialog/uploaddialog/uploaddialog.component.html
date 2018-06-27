@@ -3,6 +3,10 @@
 <mat-toolbar mat-dialog-title color="primary">
   <mat-toolbar-row>
     <span>File Uploading</span>
+    <span class="spacer"></span>
+    <button mat-icon-button mat-dialog-close [disabled]="!close">
+        <mat-icon>cancel</mat-icon>
+      </button>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-dialog-content fxFlex > 

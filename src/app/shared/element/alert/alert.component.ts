@@ -16,13 +16,11 @@ export class AlertComponent implements OnInit {
   constructor(private alertService: AlertService, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.subscription = this.alertService.getMessage().subscribe(message => {
-      if(message){
-        this.snackBar.open(message, 'Ok', {
-          duration: 2000,
-        });
+    this.subscription = this.alertService.getMessage().subscribe(message => setTimeout(() => {
+      if (message) {
+        this.snackBar.open(message.text, "Ok", { duration: 4000 });
       }
-    });
+    }, 0) );
   }
 
   ngOnDestroy() {
