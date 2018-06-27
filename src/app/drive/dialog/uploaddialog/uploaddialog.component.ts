@@ -24,6 +24,7 @@ import {
   HttpErrorResponse
 } from "@angular/common/http";
 import {  Subscription, of } from 'rxjs';
+import { environment} from "../../../../environments/environment";
 import { catchError, last, map, tap } from "rxjs/operators";
 import { FoldertreeService } from "../../services/foldertree.service";
 
@@ -57,7 +58,7 @@ export class UploaddialogComponent implements OnInit {
   /** Name used in form which will be sent in HTTP request. */
   @Input() param = "file";
   /** Target URL for file uploading. */
-  @Input() target = "http://localhost:8000/api/upload-file";
+  @Input() target = environment.serverapiUrl+"upload-file";
   /** Allow you to add handler after its completion. Bubble up response text from remote. */
   @Output() complete = new EventEmitter<string>();
   public files: Array<FileUploadModel> = [];
